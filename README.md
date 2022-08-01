@@ -4,6 +4,8 @@ This repository is an example for setting up `lucia-sveltekit` with `prisma`, us
 
 Currently, requests which are validated with `auth.validateRequest(request)` error with `AUTH_INVALID_ACCESS_TOKEN`.
 
+Apologies in advance for the code indentation - I didn't realize my new installation of VSCODE was using 2 tabs for indentation rather than spaces
+
 ## Repro
 
 1. Setup a planetscale database and copy the Prisma connection instructions to a `.env` file.
