@@ -20,12 +20,21 @@
 
 <script lang="ts">
 	import { signOut } from 'lucia-sveltekit/client';
+	import { onMount } from 'svelte';
 	export let data: any;
 
 	async function onSignOut() {
 		await signOut();
 		window.location.href = '/login';
 	}
+
+	onMount(async () => {
+		const response = await fetch('/api/check-auth');
+
+		const res = await response.json();
+
+		console.log('Client side data fetching', res);
+	});
 </script>
 
 <pre>
