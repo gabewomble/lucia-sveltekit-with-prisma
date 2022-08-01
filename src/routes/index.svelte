@@ -19,9 +19,17 @@
 </script>
 
 <script lang="ts">
+	import { signOut } from 'lucia-sveltekit/client';
 	export let data: any;
+
+	async function onSignOut() {
+		await signOut();
+		window.location.href = '/login';
+	}
 </script>
 
 <pre>
   {JSON.stringify(data)}
 </pre>
+
+<button on:click={onSignOut}>Sign out</button>

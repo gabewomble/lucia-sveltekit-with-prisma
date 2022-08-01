@@ -10,8 +10,6 @@
 </script>
 
 <script lang="ts">
-	import { session } from '$app/stores';
-
 	async function signup(event: SubmitEvent) {
 		const formData = new FormData(event.target as HTMLFormElement);
 		const email = formData.get('email') ?? '';
@@ -24,9 +22,9 @@
 				password
 			})
 		});
-	}
 
-	$: $session.lucia && (window.location.href = '/');
+		window.location.href = '/';
+	}
 </script>
 
 <form on:submit|preventDefault={signup}>
