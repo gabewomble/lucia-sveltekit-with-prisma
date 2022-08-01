@@ -1,38 +1,33 @@
-# create-svelte
+# lucia-sveltekit-prisma
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This repository is an example for setting up `lucia-sveltekit` with `prisma`, using `planetscale` as it's database host.
 
-## Creating a project
+Currently, requests which are validated with `auth.validateRequest(request)` error with `AUTH_INVALID_ACCESS_TOKEN`.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Repro
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+1. Setup a planetscale database and copy the Prisma connection instructions to a `.env` file.
+2. `npm i && npx prisma db push && npx prisma generate`
+3. `npm run dev`
+4. Create an account
+5. Home route `/` should return User data after authenticated, instead returns `AUTH_INVALID_ACCESS_TOKEN` error.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+### About
 
-## Developing
+This is a minimal setup following the email & password directions from lucia-sveltekit's [Email and Password guide](https://lucia-sveltekit.vercel.app/guides/email-and-password) + lucia-sveltekit's [Prisma Adapter guide](https://lucia-sveltekit.vercel.app/adapters/prisma). I first encountered this issue in another project with more complexity, and wanted to see if I could reproduce it in a minimal environment.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+The project has 3 pages, and 3 api routes. The API routes are the following:
 
-```bash
-npm run dev
+- `/api/sign-up`: Handles user sign up
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+- `/api/login`: Handles user login
 
-## Building
+- `/api/check-auth`: Simple endpoint which will call `auth.validateRequest(request)` and either return `validateRequest`'s return value or an error message.
 
-To create a production version of your app:
+The pages are as follows:
 
-```bash
-npm run build
-```
+- `/sign-up`: Allows user to sign up, redirects to `/` on success
 
-You can preview the production build with `npm run preview`.
+- `/login`: Allows user to login, redirects to `/` on success
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- `/`: Calls the `/api/check-auth` endpoint and renders the response data
